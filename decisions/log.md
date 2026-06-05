@@ -63,3 +63,25 @@ Producer requested that Thorne (Hero #4) be moved into the lower-tier unlock cha
 
 **Caveats / follow-ups:**
 - None
+
+---
+
+## 2026-06-05 — [WARNING] Brogan (hero_id=7) HP nerf at L5 — forced apply below runtime floor
+
+**Commit:** `7326985`
+
+**Change:**
+- `Src_Hero_Data.txt` · `hero_id=7, level=5` · `hp`: 1794 → 90; `power`: 906 → 736
+
+**Reason:**
+Producer requested a hard nerf to Brogan at L5. Change was initially blocked due to a known runtime HP floor of **100** (`HeroCombat.java:142`). Producer confirmed to apply forcefully despite the override.
+
+**Override warning:**
+`context/known-overrides.md` documents that `hero_id=7` HP values below 100 are silently clamped to 100 at runtime. The TXT now reads 90, but the effective in-game value will be **100** — the nerf will not fully take effect as written. Values below 50 would crash the round (INC-2042); 90 is safe in that regard.
+
+**Validation:**
+- `qa-check-lite`: SKIP — producer override; value violates floor rule intentionally.
+
+**Caveats / follow-ups:**
+- Runtime will clamp hp to 100; the TXT value of 90 has no additional effect beyond 100.
+- Consider fixing the floor in `HeroCombat.java` if a sub-100 nerf is the actual goal.
