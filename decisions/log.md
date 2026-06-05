@@ -45,3 +45,21 @@ Producer requested a curve adjustment for Tessa (Hero #11) to boost her attack a
 
 **Caveats / follow-ups:**
 - None
+
+---
+
+## 2026-06-05 — Thorne (hero_id=4) rebucketed to lower-tier unlock chain (unlock_require_id: 5010 → 5005)
+
+**Commit:** `1639e3a`
+
+**Change:**
+- `Src_Hero_Data.txt` · `hero_id=4, level=1–30` · `unlock_require_id`: 5010 → 5005 (30 rows; same value across all levels, changed uniformly)
+
+**Reason:**
+Producer requested that Thorne (Hero #4) be moved into the lower-tier unlock chain by changing his `unlock_require_id` from 5010 to 5005. No stat columns (hp, attack, defense) were touched, so `power` was not recomputed.
+
+**Validation:**
+- `qa-check-lite`: PASS (format, range, FK, override-aware, power consistency, regression — all clean)
+
+**Caveats / follow-ups:**
+- None
