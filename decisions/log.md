@@ -63,3 +63,22 @@ Producer requested that Thorne (Hero #4) be moved into the lower-tier unlock cha
 
 **Caveats / follow-ups:**
 - None
+
+---
+
+## 2026-06-06 — Change 4 REJECTED: Brogan (hero_id=7) hp at L5 — requested value 90 violates runtime floor
+
+**Commit:** none — no data change made
+
+**Change requested:**
+- `Src_Hero_Data.txt` · `hero_id=7, level=5` · `hp`: 1794 → 90
+
+**Why rejected:**
+`context/known-overrides.md` documents a runtime HP floor for Hero #7 in `HeroCombat.java:142`: any `hp` value below **100** is silently clamped to 100 at runtime, so the TXT value would never take effect. The requested value of **90** falls below this floor. No change was written to `Src_Hero_Data.txt`.
+
+**Validation:**
+- `qa-check-lite`: NOT RUN — request blocked at pre-flight override check
+
+**Caveats / follow-ups:**
+- If the intent is a hard nerf, the lowest effective value is **100** (the runtime floor). Producer should reissue the request with `hp=100` if they want the maximum allowed nerf to land.
+- Values below 50 would additionally crash the spawn-protection logic (`INC-2042`); 90 is above that crash threshold but still non-effective.
